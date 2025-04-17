@@ -145,7 +145,7 @@ def process_drive_folder(folder_id, sheet, drive_service):
 # ========== Streamlit UI ==========
 
 st.set_page_config(page_title="合約上傳與催帳系統", layout="centered")
-st.title("📁 合約 PDF 上傳與 📬 催帳提醒工具")
+st.title("📁兼職借調合約追蹤管理提醒工具")
 
 # 建立共用服務物件
 creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
@@ -155,11 +155,11 @@ drive_service = build('drive', 'v3', credentials=creds)
 today = datetime.today().date()
 
 
-if st.button("🚀 開始處理合約 PDF 並寫入 Sheet"):
+if st.button("🚀 新增追蹤表單內容"):
     count = process_drive_folder(DRIVE_FOLDER_ID, sheet, drive_service)
     st.success(f"✅ 共寫入 {count} 份新合約！")
 
-if st.button("📬 發送催帳提醒 Email"):
+if st.button("📬 本日催帳"):
     success, msgs = check_and_send_reminders(sheet, today, GMAIL_USER, GMAIL_APP_PASSWORD, TO_EMAIL)
     if success:
         st.success(f"✅ 已發送催帳通知，共 {len(msgs)} 筆！")
