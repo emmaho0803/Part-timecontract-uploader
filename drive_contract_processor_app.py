@@ -13,16 +13,18 @@ import re
 import smtplib
 from email.mime.text import MIMEText
 
-# ========== 設定區 ==========
-SCOPES = ["https://www.googleapis.com/auth/drive", "https://spreadsheets.google.com/feeds"]
-CREDENTIAL_FILE = 'fast-datum-437208-m4-dd85e0654495.json'
-SHEET_NAME = '兼職借調回饋金管理表'
-DRIVE_FOLDER_ID = '1sF57b3Ul-xMkGgYupUQogQ_jfc3sQ3xf'
+scopes = st.secrets["config"]["SCOPES"].split(",")
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scopes
+)
 
-# Gmail 寄信設定（請改成你自己的）
-GMAIL_USER = "tsuhsuan@nycu.edu.tw"
-GMAIL_APP_PASSWORD = "roqq leeg bzcm tgrr"
-TO_EMAIL = "tsuhsuan@nycu.edu.tw"
+# 設定
+SHEET_NAME = st.secrets["config"]["SHEET_NAME"]
+DRIVE_FOLDER_ID = st.secrets["config"]["DRIVE_FOLDER_ID"]
+GMAIL_USER = st.secrets["email"]["GMAIL_USER"]
+GMAIL_APP_PASSWORD = st.secrets["email"]["GMAIL_APP_PASSWORD"]
+TO_EMAIL = st.secrets["email"]["TO_EMAIL"]
 
 # ========== 函式區 ==========
 def parse_date(datestr):
